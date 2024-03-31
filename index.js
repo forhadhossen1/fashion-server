@@ -42,7 +42,7 @@ async function run() {
 
         // bannerColllection related code ...  
         app.get('/banner', async (req, res) => {
-            const result = await productCollection.find().toArray();
+            const result = await bannerColllection.find().toArray();
             res.send(result);
         })
 
