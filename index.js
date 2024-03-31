@@ -31,10 +31,17 @@ async function run() {
         await client.connect();
 
 
-        const productCollection = client.db('fashionDB').collection('product')
+        const productCollection = client.db('fashionDB').collection('product');
+        const bannerColllection = client.db('fashionDB').collection('banner');
 
         // productCollection related code ... 
         app.get('/product', async (req, res) => {
+            const result = await productCollection.find().toArray();
+            res.send(result);
+        })
+
+        // bannerColllection related code ...  
+        app.get('/banner', async (req, res) => {
             const result = await productCollection.find().toArray();
             res.send(result);
         })
