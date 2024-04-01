@@ -48,6 +48,11 @@ async function run() {
         })
 
         //  cartColllection related code ...... 
+        app.get('/cart', async (req, res) => {
+            const result = await cartColllection.find().toArray();
+            res.send(result);
+        })
+
         app.post('/cart', async (req, res) => {
             const cartProduct = req.body;
             const result = await cartColllection.insertOne(cartProduct);
