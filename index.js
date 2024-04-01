@@ -33,6 +33,7 @@ async function run() {
 
         const productCollection = client.db('fashionDB').collection('product');
         const bannerColllection = client.db('fashionDB').collection('banner');
+        const cartColllection = client.db('fashionDB').collection('cart');
 
         // productCollection related code ... 
         app.get('/product', async (req, res) => {
@@ -46,6 +47,12 @@ async function run() {
             res.send(result);
         })
 
+        //  cartColllection related code ...... 
+        app.post('/cart', async (req, res) => {
+            const cartProduct = req.body;
+            const result = await cartColllection.insertOne(cartProduct);
+            res.send(result);
+        })
 
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
