@@ -34,6 +34,7 @@ async function run() {
         const productCollection = client.db('fashionDB').collection('product');
         const bannerColllection = client.db('fashionDB').collection('banner');
         const cartColllection = client.db('fashionDB').collection('cart');
+        const favouriteColllection = client.db('fashionDB').collection('favourite');
 
         // productCollection related code ... 
         app.get('/product', async (req, res) => {
@@ -50,7 +51,7 @@ async function run() {
         //  cartColllection related code ...... 
         app.get('/cart', async (req, res) => {
             const email = req.query.email;
-            const query = {email: email};
+            const query = { email: email };
             const result = await cartColllection.find(query).toArray();
             res.send(result);
         })
@@ -58,6 +59,14 @@ async function run() {
         app.post('/cart', async (req, res) => {
             const cartProduct = req.body;
             const result = await cartColllection.insertOne(cartProduct);
+            res.send(result);
+        })
+
+        // favouriteColllection related code .... 
+        app.get('/favourtie', async (req, res) => {
+            const email = req.query.email;
+            const query = { email: email }
+            const result = await favouriteColllection.find(query).toArray();
             res.send(result);
         })
 
