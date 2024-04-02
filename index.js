@@ -70,7 +70,7 @@ async function run() {
             res.send(result);
         })
 
-        app.post('favourite', async (req, res) => {
+        app.post('/favourite', async (req, res) => {
             const favProduct = req.body;
             const result = await favouriteColllection.insertOne(favProduct);
             res.send(result);
