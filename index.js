@@ -34,7 +34,6 @@ async function run() {
         const productCollection = client.db('fashionDB').collection('product');
         const bannerColllection = client.db('fashionDB').collection('banner');
         const cartColllection = client.db('fashionDB').collection('cart');
-        const favouriteColllection = client.db('fashionDB').collection('favourite');
 
         // productCollection related code ... 
         app.get('/product', async (req, res) => {
@@ -62,19 +61,7 @@ async function run() {
             res.send(result);
         })
 
-        // favouriteColllection related code .... 
-        app.get('/favourite', async (req, res) => {
-            const email = req.query.email;
-            const query = { email: email }
-            const result = await favouriteColllection.find(query).toArray();
-            res.send(result);
-        })
 
-        app.post('/favourite', async (req, res) => {
-            const favProduct = req.body;
-            const result = await favouriteColllection.insertOne(favProduct);
-            res.send(result);
-        })
 
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
