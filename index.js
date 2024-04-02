@@ -63,10 +63,16 @@ async function run() {
         })
 
         // favouriteColllection related code .... 
-        app.get('/favourtie', async (req, res) => {
+        app.get('/favourite', async (req, res) => {
             const email = req.query.email;
             const query = { email: email }
             const result = await favouriteColllection.find(query).toArray();
+            res.send(result);
+        })
+
+        app.post('favourite', async (req, res) => {
+            const favProduct = req.body;
+            const result = await favouriteColllection.insertOne(favProduct);
             res.send(result);
         })
 
