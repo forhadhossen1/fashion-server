@@ -4,7 +4,7 @@ const cors = require('cors');
 require('dotenv').config()
 const port = process.env.PORT || 5000;
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
 
 //middleware
@@ -58,6 +58,13 @@ async function run() {
         app.post('/cart', async (req, res) => {
             const cartProduct = req.body;
             const result = await cartColllection.insertOne(cartProduct);
+            res.send(result);
+        })
+
+        app.delete('/cart/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await cartColllection.deleteOne(query);
             res.send(result);
         })
 
