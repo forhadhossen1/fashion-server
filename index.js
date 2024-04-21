@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 require('dotenv').config()
+const jwt = require('jsonwebtoken');
 const port = process.env.PORT || 5000;
 
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
@@ -36,11 +37,20 @@ async function run() {
         const bannerColllection = client.db('fashionDB').collection('banner');
         const cartColllection = client.db('fashionDB').collection('cart');
 
+        // jwt related api 
+        app.post('/jwt', async (req, res) => {
+            const user = req.body;
+            const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' })
+            res.send({ token });
+        })
 
+        //middlewares
+        const verifyToken = (req, res, next)
+        console.log('inside verify token', req.headers);
+        next();
 
         // usersCollection related api code 
-        app.post('/users', async (req, res) => {
-            const user = req.body;
+        app.post('/users', verifyToken, async (req, res) => {
             const query = { email: user.email }
             const existingUser = await usersCollection.findOne(query);
             if (existingUser) {
@@ -51,6 +61,7 @@ async function run() {
         })
 
         app.get('/users', async (req, res) => {
+            console.log(req.headers);
             const result = await usersCollection.find().toArray();
             res.send(result);
         })
