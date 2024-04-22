@@ -60,8 +60,20 @@ async function run() {
             })
         }
 
+        //use verify admin after verify token
+        const verifyAdmin = async (req, res, next) => {
+            const email = req.decodded.email;
+            const query = { email: email };
+            const user = await usersCollection.findOne(query);
+            const isAdmin = user?.role === 'admin';
+            if (!isAdmin) {
+                return res.status(403).send({ message: 'forbidden access' })
+            }
+            next();
+        }
+
         // usersCollection related api code 
-        app.post('/users', async (req, res) => {
+        app.post('/users', verifyToken, async (req, res) => {
             const query = { email: user.email }
             const existingUser = await usersCollection.findOne(query);
             if (existingUser) {
