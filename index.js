@@ -73,7 +73,7 @@ async function run() {
         }
 
         // usersCollection related api code 
-        app.post('/users', verifyToken, async (req, res) => {
+        app.post('/users', verifyToken, verifyAdmin, async (req, res) => {
             const query = { email: user.email }
             const existingUser = await usersCollection.findOne(query);
             if (existingUser) {
